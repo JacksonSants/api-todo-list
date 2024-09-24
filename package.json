@@ -1,0 +1,19 @@
+{
+  "scripts": {
+    "dev": "tsx watch src/server.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.19.1",
+    "fastify": "^4.0.0",
+    "fastify-type-provider-zod": "^2.0.0",
+    "justify": "^1.0.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "prisma": "^5.19.1",
+    "tsup": "^8.0.2",
+    "tsx": "^4.7.1",
+    "typescript": "^5.4.3"
+  }
+}
