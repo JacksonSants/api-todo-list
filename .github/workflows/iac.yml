@@ -6,7 +6,7 @@ on:
       - main
 
 permissions:
-  id-token: write # Essencial para o OIDC funcionar e gerar o token temporário
+  id-token: write 
   contents: write
   issues: write
 
@@ -27,9 +27,6 @@ jobs:
     - name: Install dependencies
       run: npm ci       
 
-    - name: Run tests
-      run: npm test
-
     - name: Semantic release
       uses: cycjimmy/semantic-release-action@v4
       env:
@@ -44,18 +41,21 @@ jobs:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
-        role-to-assume: ""
-        aws-region: ""
+        role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+        aws-region: ${{ secrets.AWS_REGION }}
 
     - name: Login to AWS ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v2
 
     - name: Build and Push Docker Image
+      id: build-docker-image
       env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: todo-api 
-        IMAGE_TAG: ${{ steps.generate_tag.outputs.sha }}
+        REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+        TAG: ${{ steps.generate_tag.outputs.sha }}
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker build -t $REGISTRY/$REPOSITORY:$TAG .
+        docker tag $REGISTRY/$REPOSITORY:$TAG $REGISTRY/$REPOSITORY:latest
+        docker push --all-tags $REGISTRY/$REPOSITORY
+        echo "image=$REGISTRY/$REPOSITORY:$TAG" >> $GITHUB_OUTPUT

@@ -40,4 +40,4 @@ RUN chown -R node:node /app
 USER node
 EXPOSE 3000
 
-CMD ["node", "dist/server.js"]
+CMD ["npm", "start"]
