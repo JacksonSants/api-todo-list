@@ -1,20 +1,17 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider = "mysql"
 }
 
 model Task {
-  id        String   @id @default(uuid())
-  title     String
-  dateTime  DateTime
+  id          String   @id @default(uuid())
+  title       String
+  dateTime    DateTime
   description String
-  completed  Boolean @default(false)
+  completed   Boolean  @default(false)
+
   @@map("tarefa")
 }

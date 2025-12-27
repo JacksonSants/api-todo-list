@@ -35,7 +35,7 @@ export async function getTask(app: FastifyInstance) {
                 take: pageSize,
             });
 
-            const formattedTasks = tasks.map(task => ({
+            const formattedTasks = tasks.map((task:any) => ({
                 id: task.id,
                 title: task.title,
                 dateTime: task.dateTime.toISOString(),

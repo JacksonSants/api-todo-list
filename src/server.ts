@@ -18,6 +18,6 @@ app.register(DeleteTask)
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
 
-app.listen({port: 5000}).then(() => {
-    console.log('Server listening on port 5000');
-})
+app.listen({ port: 3000, host: "0.0.0.0" }).then(() => {
+  console.log("Server listening on port 3000");
+});
