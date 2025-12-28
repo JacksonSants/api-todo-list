@@ -13,10 +13,6 @@ build/
 .env.*
 !.env.example
 
-# Prisma
-prisma/migrations/
-generated/
-
 # IDE
 .vscode/
 .idea/
@@ -24,3 +20,5 @@ generated/
 # OS
 .DS_Store
 Thumbs.db
+
+/generated/prisma

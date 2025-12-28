@@ -30,7 +30,7 @@ jobs:
     - name: Semantic release
       uses: cycjimmy/semantic-release-action@v4
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+        GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }} 
 
     - name: Generate tag
       id: generate_tag 
@@ -59,3 +59,17 @@ jobs:
         docker tag $REGISTRY/$REPOSITORY:$TAG $REGISTRY/$REPOSITORY:latest
         docker push --all-tags $REGISTRY/$REPOSITORY
         echo "image=$REGISTRY/$REPOSITORY:$TAG" >> $GITHUB_OUTPUT
+        
+        IMAGE=$(echo $REGISTRY/$REPOSITORY:$TAG)
+        echo "image=$IMAGE" >> $GITHUB_OUTPUT
+    - name: Deploy to app runner
+      uses: awslabs/amazon-app-runner-deploy@main
+      with:
+        service: todo-list-app
+        image: ${{ steps.build-docker-image.outputs.image }}
+        access-role-arn: ${{ secrets.AWS_APPRUNNER_ACCESS_ROLE }}
+        region: ${{ secrets.AWS_REGION }}
+        cpu: 1
+        memory: 2
+        port: 8080
+        wait-for-service-stability-seconds: 600
