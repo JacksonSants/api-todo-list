@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyTypeProvider } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z, date } from "zod";
-import { prisma } from "../lib/prisma";
+import { prisma } from "../../lib/prisma";
 
 export async function createTask(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>()
