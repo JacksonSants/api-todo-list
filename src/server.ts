@@ -16,6 +16,11 @@ app.register(updateTask);
 app.register(updateTaskForPatch);
 app.register(DeleteTask);
 app.register(HealthCheck);
+app.get("/", async(_, reply) => {
+  return reply.status(200).send({
+    message: "Bem vindo ao listfy"
+  })
+})
 
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
